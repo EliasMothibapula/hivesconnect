@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hives Connect · Professional Service Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <body>
+        <!-- Demo Site Notice -->
+        <div style="background-color: #ffcccb; color: #000; text-align: center; padding: 10px; font-weight: bold;">
+            This is a demo site. All data is for demonstration purposes only.
+        </div>
+    
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="container">
+                <div class="logo">
+                    <i class="fas fa-hive"></i>Hives<span>Connect</span>
+                </div>
+                <div class="nav-links">
+                    <a class="active" data-page="customer"><i class="fas fa-user"></i> Customer</a>
+                    <a data-page="sme"><i class="fas fa-store"></i> SME</a>
+                    <a data-page="analytics"><i class="fas fa-chart-simple"></i> Analytics</a>
+                    <span class="wallet-badge" id="globalWalletBadge">
+                        <i class="fas fa-wallet"></i> P<span id="globalWallet">0</span>
+                    </span>
+                </div>
+            </div>
+        </nav>
+    <div class="container">
+        <!-- Quick Stats Banner -->
+        <div class="quick-stats-banner">
+            <div class="stat-card-mini">
+                <span class="stat-icon"><i class="fas fa-users"></i></span>
+                <div>
+                    <span class="stat-value" id="activeCustomers">148</span>
+                    <span class="stat-label">Active Customers</span>
+                </div>
+            </div>
+            <div class="stat-card-mini">
+                <span class="stat-icon"><i class="fas fa-store"></i></span>
+                <div>
+                    <span class="stat-value" id="activeSMEs">32</span>
+                    <span class="stat-label">Active SMEs</span>
+                </div>
+            </div>
+            <div class="stat-card-mini">
+                <span class="stat-icon"><i class="fas fa-check-circle"></i></span>
+                <div>
+                    <span class="stat-value" id="totalJobs">421</span>
+                    <span class="stat-label">Jobs Completed</span>
+                </div>
+            </div>
+            <div class="stat-card-mini">
+                <span class="stat-icon"><i class="fas fa-coins"></i></span>
+                <div>
+                    <span class="stat-value">P<span id="platformRevenue">4,210</span></span>
+                    <span class="stat-label">Platform Revenue</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo Banner -->
+        <div class="demo-banner flex space-between">
+            <div>
+                <i class="fas fa-shield-alt"></i> 
+                <strong>Protected by Escrow</strong> · 5% platform fee · 95% to SME
+            </div>
+            <div id="demoBalances">
+                <span class="wallet-badge customer-balance"><i class="fas fa-user"></i> You: P<span id="custWalletDisplay">1000</span></span>
+            </div>
+        </div>
+
+        <!-- CUSTOMER PANEL -->
+        <div id="customerPanel" class="fade-in">
+            <div class="flex space-between">
+                <h2><i class="fas fa-store-alt"></i> Marketplace</h2>
+                <div>
+                    <span class="wallet-badge"><i class="fas fa-wallet"></i> Balance: P<span id="custWallet">1000</span></span>
+                    <span class="wallet-badge" style="background:#cfe2ff;"><i class="fas fa-lock"></i> Escrow: P<span id="custEscrow">0</span></span>
+                </div>
+            </div>
+
+            <!-- Search & Filters -->
+            <div class="card">
+                <div class="search-section">
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Search services, providers...">
+                        <button class="btn btn-sm" id="searchBtn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="flex">
+                        <button class="deposit-btn" id="depositBtn"><i class="fas fa-plus-circle"></i> Deposit</button>
+                    </div>
+                </div>
+                
+                <!-- Category Filters -->
+                <div class="category-filters">
+                    <button class="filter-btn active" data-category="all">All</button>
+                    <button class="filter-btn" data-category="Plumbing">Plumbing</button>
+                    <button class="filter-btn" data-category="Bakery">Bakery</button>
+                    <button class="filter-btn" data-category="Electrical">Electrical</button>
+                    <button class="filter-btn" data-category="Cleaning">Cleaning</button>
+                    <button class="filter-btn" data-category="Repair">Repair</button>
+                </div>
+
+                <div class="deposit-methods mt-2">
+                    <span class="text-muted"><i class="fas fa-credit-card"></i> Deposit via:</span>
+                    <button class="deposit-btn" data-method="mobile"><i class="fas fa-mobile-alt"></i> Mobile Wallet</button>
+                    <button class="deposit-btn" data-method="bank"><i class="fas fa-university"></i> Bank Transfer</button>
+                    <button class="deposit-btn" data-method="card"><i class="fas fa-credit-card"></i> Card</button>
+                </div>
+            </div>
+
+            <!-- Popular Services -->
+            <div class="popular-services">
+                <h3><i class="fas fa-fire"></i> Popular Services</h3>
+                <div class="popular-grid" id="popularServices"></div>
+            </div>
+
+            <!-- Services offered -->
+            <h3 class="mt-2"><i class="fas fa-tools"></i> All Services</h3>
+            <div class="provider-grid" id="providerGrid"></div>
+
+            <!-- Customer Bookings -->
+            <h3 class="mt-2"><i class="fas fa-list-check"></i> Your bookings</h3>
+            <div class="card" id="customerBookings">
+                <p class="text-muted">No active bookings.</p>
+            </div>
+
+            <!-- Customer Analytics -->
+            <h3 class="mt-2"><i class="fas fa-chart-bar"></i> Your analytics</h3>
+            <div class="analytics-grid-customer">
+                <div class="card">
+                    <div class="text-muted">Total spent</div>
+                    <div style="font-size:1.6rem;font-weight:700;">P<span id="custTotalSpent">0</span></div>
+                    <div class="trend-indicator">Last 30 days</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted">Services booked</div>
+                    <div style="font-size:1.6rem;font-weight:700;" id="custTotalBookings">0</div>
+                    <div class="trend-indicator">+2 this month</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted">Reviews given</div>
+                    <div style="font-size:1.6rem;font-weight:700;" id="custReviewsGiven">0</div>
+                    <div class="trend-indicator">Average rating: 4.8 ★</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted">Favorite service</div>
+                    <div style="font-size:1.1rem;font-weight:600;" id="custFavoriteService">-</div>
+                    <div class="trend-indicator">Most booked</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SME PANEL -->
+        <div id="smePanel" class="hide fade-in">
+            <h2><i class="fas fa-store"></i> SME Dashboard</h2>
+            
+            <!-- SME Quick Stats -->
+            <div class="sme-stats-grid">
+                <div class="card">
+                    <div class="text-muted">Today's Earnings</div>
+                    <div style="font-size:1.8rem;font-weight:700;">P<span id="smeTodayEarnings">0</span></div>
+                </div>
+                <div class="card">
+                    <div class="text-muted">This Week</div>
+                    <div style="font-size:1.8rem;font-weight:700;">P<span id="smeWeekEarnings">0</span></div>
+                </div>
+                <div class="card">
+                    <div class="text-muted">Average Rating</div>
+                    <div style="font-size:1.8rem;font-weight:700;"><span id="smeAvgRatingDisplay">0.0</span> ★</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted">Customers Served</div>
+                    <div style="font-size:1.8rem;font-weight:700;" id="smeCustomersServed">0</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="flex space-between">
+                    <div><span class="wallet-badge"><i class="fas fa-wallet"></i> Wallet: P<span id="smeWallet">200</span></span></div>
+                    <div><span class="badge-commission"><i class="fas fa-hourglass-half"></i> P<span id="smePending">0</span> in escrow</span></div>
+                    <div><span class="badge-commission"><i class="fas fa-percent"></i> Response rate: <span id="smeResponseRate">100%</span></span></div>
+                </div>
+            </div>
+
+            <!-- SME Bookings -->
+            <h3><i class="fas fa-clipboard-list"></i> Service requests</h3>
+            <div class="card" id="smeRequests">
+                <p class="text-muted">No pending requests.</p>
+            </div>
+
+            <!-- SME Completed -->
+            <h3 class="mt-2"><i class="fas fa-history"></i> Completed jobs</h3>
+            <div class="card" id="smeCompleted">
+                <p class="text-muted">No completed jobs yet.</p>
+            </div>
+            
+            <!-- SME Analytics -->
+            <h3 class="mt-2"><i class="fas fa-chart-bar"></i> Performance analytics</h3>
+            <div class="analytics-grid-sme">
+                <div class="card">
+                    <div class="text-muted">Total earnings</div>
+                    <div style="font-size:1.6rem;font-weight:700;">P<span id="smeTotalEarnings">0</span></div>
+                    <div class="trend-indicator">+12% this month</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted">Jobs completed</div>
+                    <div style="font-size:1.6rem;font-weight:700;" id="smeJobsCompleted">0</div>
+                    <div class="trend-indicator">+3 this month</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted">Top service</div>
+                    <div style="font-size:1.1rem;font-weight:600;" id="smeTopService">-</div>
+                    <div class="trend-indicator">Most requested</div>
+                </div>
+                <div class="card">
+                    <div class="text-muted">Customer satisfaction</div>
+                    <div style="font-size:1.6rem;font-weight:700;" id="smeSatisfaction">0%</div>
+                    <div class="trend-indicator">Based on reviews</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ANALYTICS PANEL -->
+        <div id="analyticsPanel" class="hide fade-in">
+            <!-- Customer Analytics Section -->
+            <div id="customerAnalyticsView">
+                <h2><i class="fas fa-user-chart"></i> Your Analytics</h2>
+                <p class="text-muted">Personal spending and booking insights</p>
+
+                <!-- Spending Overview -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-coins"></i> Spending Overview</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card primary">
+                            <div class="card-label">Total Spent</div>
+                            <div class="card-value">P<span id="custTotalSpentAnalytics">0</span></div>
+                            <div class="card-trend" id="custSpentTrend">+12% this month</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Average per Booking</div>
+                            <div class="card-value">P<span id="custAvgBooking">0</span></div>
+                            <div class="card-trend">Based on <span id="custBookingCountAnalytics">0</span> bookings</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Most Expensive</div>
+                            <div class="card-value">P<span id="custMostExpensive">0</span></div>
+                            <div class="card-trend" id="custMostExpensiveService">-</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Platform Fees Paid</div>
+                            <div class="card-value">P<span id="custPlatformFees">0</span></div>
+                            <div class="card-trend">5% of total spend</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Booking Statistics -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-calendar-check"></i> Booking Statistics</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card">
+                            <div class="card-label">Total Bookings</div>
+                            <div class="card-value"><span id="custTotalBookingsAnalytics">0</span></div>
+                            <div class="card-trend">Completed: <span id="custCompletedBookings">0</span></div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Cancelled</div>
+                            <div class="card-value"><span id="custCancelledBookings">0</span></div>
+                            <div class="card-trend">Rate: <span id="custCancelRate">0</span>%</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Most Booked</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="custMostBookedService">-</div>
+                            <div class="card-trend"><span id="custMostBookedCount">0</span> bookings</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Avg. Time to Complete</div>
+                            <div class="card-value"><span id="custAvgCompletionTime">-</span></div>
+                            <div class="card-trend">From booking to completion</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Provider & Review Insights -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-handshake"></i> Provider & Review Insights</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card">
+                            <div class="card-label">Favorite Provider</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="custFavoriteProvider">-</div>
+                            <div class="card-trend"><span id="custFavoriteProviderBookings">0</span> bookings</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Unique Providers Used</div>
+                            <div class="card-value"><span id="custUniqueProviders">0</span></div>
+                            <div class="card-trend">Repeat rate: <span id="custRepeatRate">0</span>%</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Reviews Given</div>
+                            <div class="card-value"><span id="custReviewsGivenAnalytics">0</span></div>
+                            <div class="card-trend">Avg rating given: <span id="custAvgRatingGiven">0.0</span> ★</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Most Common Rating</div>
+                            <div class="card-value"><span id="custMostCommonRating">-</span> ★</div>
+                            <div class="card-trend">From <span id="custReviewCountAnalytics">0</span> reviews</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Preferences -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-chart-pie"></i> Service Preferences</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card">
+                            <div class="card-label">Preferred Time</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="custPreferredTime">-</div>
+                            <div class="card-trend"><span id="custTimeCount">0</span> bookings</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Preferred Day</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="custPreferredDay">-</div>
+                            <div class="card-trend"><span id="custDayCount">0</span> bookings</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Emergency Bookings</div>
+                            <div class="card-value"><span id="custEmergencyCount">0</span></div>
+                            <div class="card-trend">Of total bookings</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Average Booking Value</div>
+                            <div class="card-value">P<span id="custAvgValue">0</span></div>
+                            <div class="card-trend">+<span id="custValueTrend">0</span>% from last month</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SME Analytics Section -->
+            <div id="smeAnalyticsView" class="hide">
+                <h2><i class="fas fa-store-chart"></i> Business Analytics</h2>
+                <p class="text-muted">Revenue, performance, and customer insights</p>
+
+                <!-- Revenue & Earnings -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-money-bill-wave"></i> Revenue & Earnings</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card primary">
+                            <div class="card-label">Total Earnings</div>
+                            <div class="card-value">P<span id="smeTotalEarningsAnalytics">0</span></div>
+                            <div class="card-trend" id="smeEarningsTrend">+18% this month</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Platform Fees Paid</div>
+                            <div class="card-value">P<span id="smePlatformFees">0</span></div>
+                            <div class="card-trend">5% of earnings</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Average per Job</div>
+                            <div class="card-value">P<span id="smeAvgPerJob">0</span></div>
+                            <div class="card-trend">Highest: P<span id="smeHighestJob">0</span></div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Most Profitable Service</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="smeProfitableService">-</div>
+                            <div class="card-trend">P<span id="smeProfitableAmount">0</span> earned</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Job Performance -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-tasks"></i> Job Performance</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card">
+                            <div class="card-label">Jobs Completed</div>
+                            <div class="card-value"><span id="smeJobsCompletedAnalytics">0</span></div>
+                            <div class="card-trend">Acceptance rate: <span id="smeAcceptanceRate">0</span>%</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Completion Rate</div>
+                            <div class="card-value"><span id="smeCompletionRate">0</span>%</div>
+                            <div class="card-trend">+<span id="smeCompletionTrend">0</span>%</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Most Common Service</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="smeCommonService">-</div>
+                            <div class="card-trend"><span id="smeCommonCount">0</span> jobs</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Avg. Job Duration</div>
+                            <div class="card-value"><span id="smeAvgDuration">-</span></div>
+                            <div class="card-trend">Quickest: <span id="smeQuickestJob">-</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Customer Insights -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-users"></i> Customer Insights</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card">
+                            <div class="card-label">Total Customers</div>
+                            <div class="card-value"><span id="smeTotalCustomers">0</span></div>
+                            <div class="card-trend">New: <span id="smeNewCustomers">0</span> this month</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Repeat Customers</div>
+                            <div class="card-value"><span id="smeRepeatCustomers">0</span></div>
+                            <div class="card-trend">Rate: <span id="smeRepeatRate">0</span>%</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Highest Value Customer</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="smeTopCustomer">-</div>
+                            <div class="card-trend">P<span id="smeTopCustomerSpend">0</span> spent</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Customer Retention</div>
+                            <div class="card-value"><span id="smeRetentionRate">0</span>%</div>
+                            <div class="card-trend">+<span id="smeRetentionTrend">0</span>%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quality Metrics -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-star"></i> Quality Metrics</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card">
+                            <div class="card-label">Average Rating</div>
+                            <div class="card-value"><span id="smeAvgRatingAnalytics">0.0</span> ★</div>
+                            <div class="card-trend">Based on <span id="smeRatingCount">0</span> reviews</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Rating Distribution</div>
+                            <div class="card-value" style="font-size:0.9rem;" id="smeRatingDistribution">-</div>
+                            <div class="card-trend">Most: <span id="smeMostCommonRating">-</span> ★</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Avg. Response Time</div>
+                            <div class="card-value"><span id="smeAvgResponseTime">-</span></div>
+                            <div class="card-trend">⬇️ <span id="smeResponseTrend">0</span>% faster</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Customer Satisfaction</div>
+                            <div class="card-value"><span id="smeSatisfactionAnalytics">0</span>%</div>
+                            <div class="card-trend">+<span id="smeSatisfactionTrend">0</span>%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Service Popularity -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-fire"></i> Service Popularity</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card">
+                            <div class="card-label">Top Service</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="smeTopServiceAnalytics">-</div>
+                            <div class="card-trend"><span id="smeTopServiceCount">0</span> jobs</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">2nd Most Popular</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="smeSecondService">-</div>
+                            <div class="card-trend"><span id="smeSecondCount">0</span> jobs</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">3rd Most Popular</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="smeThirdService">-</div>
+                            <div class="card-trend"><span id="smeThirdCount">0</span> jobs</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Service Price Range</div>
+                            <div class="card-value" style="font-size:1.1rem;">P<span id="smePriceMin">0</span> - P<span id="smePriceMax">0</span></div>
+                            <div class="card-trend">Average: P<span id="smePriceAvg">0</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Business Growth -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-chart-line"></i> Business Growth</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card">
+                            <div class="card-label">Monthly Job Growth</div>
+                            <div class="card-value" style="color:#1e7e34;">+<span id="smeJobGrowth">0</span>%</div>
+                            <div class="card-trend">vs last month</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Monthly Revenue Growth</div>
+                            <div class="card-value" style="color:#1e7e34;">+<span id="smeRevenueGrowth">0</span>%</div>
+                            <div class="card-trend">vs last month</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">New Customers This Month</div>
+                            <div class="card-value"><span id="smeNewCustomersMonth">0</span></div>
+                            <div class="card-trend">+<span id="smeCustomerGrowth">0</span>%</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Busiest Day</div>
+                            <div class="card-value" style="font-size:1.1rem;" id="smeBusiestDay">-</div>
+                            <div class="card-trend"><span id="smeBusiestDayCount">0</span> jobs</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Escrow & Payment -->
+                <div class="analytics-section">
+                    <h3 class="section-title"><i class="fas fa-lock"></i> Escrow & Payment</h3>
+                    <div class="analytics-grid-4">
+                        <div class="analytics-card">
+                            <div class="card-label">Total Escrow Handled</div>
+                            <div class="card-value">P<span id="smeTotalEscrow">0</span></div>
+                            <div class="card-trend">Across all transactions</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Pending Payments</div>
+                            <div class="card-value">P<span id="smePendingPayments">0</span></div>
+                            <div class="card-trend">In escrow</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Avg. Payment Time</div>
+                            <div class="card-value"><span id="smeAvgPaymentTime">-</span></div>
+                            <div class="card-trend">After completion</div>
+                        </div>
+                        <div class="analytics-card">
+                            <div class="card-label">Payment Withdrawals</div>
+                            <div class="card-value"><span id="smeWithdrawals">0</span></div>
+                            <div class="card-trend">Most common: <span id="smePaymentMethod">Mobile Wallet</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation between customer and SME analytics -->
+            <div class="analytics-nav">
+                <button class="btn btn-sm active" id="analyticsCustomerBtn" style="margin-right:8px;">
+                    <i class="fas fa-user"></i> Customer Analytics
+                </button>
+                <button class="btn btn-sm btn-outline" id="analyticsSmeBtn">
+                    <i class="fas fa-store"></i> SME Analytics
+                </button>
+            </div>
+        </div>
+
+        <!-- MODALS -->
+        <!-- Deposit Modal -->
+        <div id="depositModal" class="modal hide">
+            <div class="modal-card">
+                <button class="close-btn" id="closeDepositModal">&times;</button>
+                <h3><i class="fas fa-wallet"></i> Deposit funds</h3>
+                <p class="text-muted">Select method & amount</p>
+                <select id="depositMethod">
+                    <option value="mobile">Orange Money / BeMobile</option>
+                    <option value="bank">Bank Transfer (FNB/Stanbic)</option>
+                    <option value="card">Credit / Debit Card</option>
+                </select>
+                <input type="number" id="depositAmount" placeholder="Amount (P)" value="100" min="10">
+                <div class="flex space-between mt-2">
+                    <button class="btn btn-outline" id="cancelDeposit">Cancel</button>
+                    <button class="btn btn-success" id="confirmDeposit"><i class="fas fa-check"></i> Deposit</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Booking Modal -->
+        <div id="bookingModal" class="modal hide">
+            <div class="modal-card">
+                <button class="close-btn" id="closeBookingModal">&times;</button>
+                <h3><i class="fas fa-clipboard-list"></i> <span id="bookingModalTitle">Book service</span></h3>
+                <div id="bookingModalBody">
+                    <div class="form-group">
+                        <label>Service type</label>
+                        <select id="bookingServiceType">
+                            <option value="">Select service type...</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Service address</label>
+                        <input type="text" id="bookingAddress" placeholder="Full address" value="Gaborone CBD">
+                    </div>
+                    <div class="form-group">
+                        <label>Date & time</label>
+                        <input type="datetime-local" id="bookingDateTime" class="datetime-input">
+                    </div>
+                    <div class="form-group">
+                        <label>Urgency</label>
+                        <select id="bookingUrgency">
+                            <option value="normal">Normal (1-3 days)</option>
+                            <option value="urgent">Urgent (Today/Tomorrow)</option>
+                            <option value="emergency">Emergency (Within 2 hours) + P100</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Service details</label>
+                        <textarea id="bookingDetails" placeholder="Describe what you need..." style="min-height:80px;"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Additional notes</label>
+                        <input type="text" id="bookingNotes" placeholder="Any special requirements?">
+                    </div>
+                    <div class="photo-upload" id="photoUploadTrigger">
+                        <i class="fas fa-camera"></i> Add photo (click to upload)
+                        <input type="file" id="photoUpload" accept="image/*" style="display:none;">
+                    </div>
+                    <div id="photoPreviewContainer"></div>
+                    <div class="flex space-between mt-2">
+                        <button class="btn btn-outline" id="cancelBookingModal">Cancel</button>
+                        <button class="btn btn-success" id="confirmBooking"><i class="fas fa-check"></i> Book now</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Provider Detail Modal -->
+        <div id="providerDetailModal" class="modal hide">
+            <div class="modal-card" style="max-width:600px;">
+                <button class="close-btn" id="closeProviderDetail">&times;</button>
+                <div id="providerDetailContent"></div>
+            </div>
+        </div>
+
+        <!-- Review Modal -->
+        <div id="reviewModal" class="modal hide">
+            <div class="modal-card">
+                <button class="close-btn" id="closeReviewModal">&times;</button>
+                <h3>Review <span id="reviewProviderName"></span></h3>
+                <div class="review-stars" id="reviewStars">
+                    <span class="star" data-value="1">☆</span>
+                    <span class="star" data-value="2">☆</span>
+                    <span class="star" data-value="3">☆</span>
+                    <span class="star" data-value="4">☆</span>
+                    <span class="star" data-value="5">☆</span>
+                </div>
+                <div class="form-group">
+                    <label>Review details</label>
+                    <textarea id="reviewComment" placeholder="Share your experience..." style="width:100%;padding:0.6rem;border-radius:12px;border:1px solid #dce2ea;min-height:80px;font-family:inherit;"></textarea>
+                </div>
+                <div class="flex space-between mt-2">
+                    <button class="btn btn-outline" id="cancelReview">Cancel</button>
+                    <button class="btn btn-success" id="submitReview">Submit review</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cancel Reason Modal -->
+        <div id="cancelReasonModal" class="modal hide">
+            <div class="modal-card">
+                <button class="close-btn" id="closeCancelReason">&times;</button>
+                <h3>Cancel booking</h3>
+                <p class="text-muted">Please provide a reason for cancellation</p>
+                <textarea id="cancelReason" placeholder="Why are you cancelling?" style="width:100%;padding:0.6rem;border-radius:12px;border:1px solid #dce2ea;min-height:80px;font-family:inherit;"></textarea>
+                <div class="flex space-between mt-2">
+                    <button class="btn btn-outline" id="cancelCancel">Go back</button>
+                    <button class="btn btn-danger" id="confirmCancelBooking">Confirm cancellation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
